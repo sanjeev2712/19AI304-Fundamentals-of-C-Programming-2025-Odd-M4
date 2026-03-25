@@ -4,7 +4,7 @@
 ## 8. Implementation of passing parameters.
 # Ex.No:16
   Implement a C program to read a date in the format DD/MM/YYYY and determine whether the entered date is valid. The program should check the correctness of the day, month, and year, including leap year calculations for February.
-# Date : 
+# Date : 26/02/2026
 # Aim:
  To implement a C program that validates a user-entered date using a function without parameters and without return value, ensuring the correctness of day, month, year, and leap year conditions.
 # Algorithm:
@@ -41,7 +41,64 @@
 ### Step 14: 
   Stop
 # Program:
+```
+#include <stdio.h>
+
+// Function to check if a year is a leap year
+int isLeapYear(int year) {
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+// Function to check if a date is valid
+int isValidDate(int day, int month, int year) {
+    if (year < 1) return 0;      // Year must be positive
+    if (month < 1 || month > 12) return 0; // Month must be 1-12
+
+    int daysInMonth;
+
+    switch (month) {
+        case 1: case 3: case 5: case 7:
+        case 8: case 10: case 12:
+            daysInMonth = 31;
+            break;
+        case 4: case 6: case 9: case 11:
+            daysInMonth = 30;
+            break;
+        case 2:
+            daysInMonth = isLeapYear(year) ? 29 : 28;
+            break;
+        default:
+            return 0;
+    }
+
+    if (day < 1 || day > daysInMonth) return 0;
+
+    return 1;
+}
+
+int main() {
+    int day, month, year;
+
+    // Input date from user
+    printf("Enter a date (DD/MM/YYYY): ");
+    if (scanf("%d/%d/%d", &day, &month, &year) != 3) {
+        printf("Invalid input format!\n");
+        return 1;
+    }
+
+    // Check if date is valid
+    if (isValidDate(day, month, year)) {
+        printf("The date %02d/%02d/%04d is valid.\n", day, month, year);
+    } else {
+        printf("The date %02d/%02d/%04d is NOT valid.\n", day, month, year);
+    }
+
+    return 0;
+}
+```
 # Output:
+![alt text](image.png)
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -89,7 +146,39 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 13: 
   Stop
 # Program:
+```
+#include <stdio.h>
+
+// Function to find maximum of two numbers
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+// Function to find minimum of two numbers
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int main() {
+    int num1, num2;
+
+    // Input two numbers from user
+    printf("Enter two numbers: ");
+    scanf("%d %d", &num1, &num2);
+
+    // Call user-defined functions
+    int maximum = max(num1, num2);
+    int minimum = min(num1, num2);
+
+    // Display results
+    printf("Maximum: %d\n", maximum);
+    printf("Minimum: %d\n", minimum);
+
+    return 0;
+}
+```
 # Output:
+![alt text](image-1.png)
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -137,7 +226,44 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 11: 
  Stop
 # Program:
+```
+#include <stdio.h>
+
+// Function to convert Celsius to Fahrenheit
+float celsiusToFahrenheit(float celsius) {
+    return (celsius * 9.0 / 5.0) + 32;
+}
+
+// Function to convert Fahrenheit to Celsius
+float fahrenheitToCelsius(float fahrenheit) {
+    return (fahrenheit - 32) * 5.0 / 9.0;
+}
+
+int main() {
+    float celsius, fahrenheit;
+
+    // Input Celsius temperature
+    printf("Enter temperature in Celsius: ");
+    scanf("%f", &celsius);
+
+    // Convert to Fahrenheit and display
+    float tempF = celsiusToFahrenheit(celsius);
+    printf("%.2f Celsius = %.2f Fahrenheit\n", celsius, tempF);
+
+    // Input Fahrenheit temperature
+    printf("Enter temperature in Fahrenheit: ");
+    scanf("%f", &fahrenheit);
+
+    // Convert to Celsius and display
+    float tempC = fahrenheitToCelsius(fahrenheit);
+    printf("%.2f Fahrenheit = %.2f Celsius\n", fahrenheit, tempC);
+
+    return 0;
+}
+```
 # Output:
+![alt text](image-2.png)
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -185,7 +311,67 @@ Thus, the program was implemented and executed successfully, and the required ou
 ### Step 7: 
   Stop
 # Program:
+```
+#include <stdio.h>
+
+#define SIZE 4
+
+// Function to print matrix in spiral order
+void spiralPrint(int matrix[SIZE][SIZE]) {
+    int i, rowStart = 0, rowEnd = SIZE - 1;
+    int colStart = 0, colEnd = SIZE - 1;
+
+    printf("Spiral Order: ");
+    
+    while (rowStart <= rowEnd && colStart <= colEnd) {
+        // Print top row
+        for (i = colStart; i <= colEnd; i++)
+            printf("%d ", matrix[rowStart][i]);
+        rowStart++;
+
+        // Print right column
+        for (i = rowStart; i <= rowEnd; i++)
+            printf("%d ", matrix[i][colEnd]);
+        colEnd--;
+
+        // Print bottom row (if any)
+        if (rowStart <= rowEnd) {
+            for (i = colEnd; i >= colStart; i--)
+                printf("%d ", matrix[rowEnd][i]);
+            rowEnd--;
+        }
+
+        // Print left column (if any)
+        if (colStart <= colEnd) {
+            for (i = rowEnd; i >= rowStart; i--)
+                printf("%d ", matrix[i][colStart]);
+            colStart++;
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    int matrix[SIZE][SIZE];
+    int i, j;
+
+    // Input 4x4 matrix
+    printf("Enter 16 elements of the 4x4 matrix:\n");
+    for (i = 0; i < SIZE; i++) {
+        for (j = 0; j < SIZE; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+
+    // Call function to print spiral order
+    spiralPrint(matrix);
+
+    return 0;
+}
+```
 # Output:
+![alt text](image-3.png)
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
@@ -220,7 +406,57 @@ To build a C program to convert a string as described above, using a user-define
 ### Step 6: 
  Stop
 # Program:
+```
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+// Function to convert string as per rules
+void convertString(char str[]) {
+    int len = strlen(str);
+
+    if (len == 0) return;
+
+    // Convert first character to uppercase
+    str[0] = toupper(str[0]);
+
+    // Convert last character to uppercase
+    str[len - 1] = toupper(str[len - 1]);
+
+    // Convert characters before and after each space
+    for (int i = 0; i < len; i++) {
+        if (str[i] == ' ') {
+            if (i > 0) str[i - 1] = toupper(str[i - 1]); // before space
+            if (i < len - 1) str[i + 1] = toupper(str[i + 1]); // after space
+        }
+    }
+}
+
+int main() {
+    char str[1000];
+
+    // Input string
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+
+    // Remove newline if present
+    int len = strlen(str);
+    if (str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+
+    // Convert string using user-defined function
+    convertString(str);
+
+    // Display converted string
+    printf("Converted string: %s\n", str);
+
+    return 0;
+}
+```
 # Output:
+![alt text](image-4.png)
+
 # Result: 
 Thus, the program was implemented and executed successfully, and the required output was obtained.
 
